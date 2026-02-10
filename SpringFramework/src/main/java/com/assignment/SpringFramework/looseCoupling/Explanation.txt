@@ -1,0 +1,44 @@
+Ques 3:
+Use @Compenent and @Autowired annotations to in Loosely Coupled code for dependency management
+
+      @Component tells spring boot that this class can contains beans and you have to manage it
+
+      there are other annotations as well:
+      @Service: it tells spring that this class contains business logic
+      @Controller: it tells spring that this class contains apis
+      @Repository: it tells spring that this class have logic to interact with database
+      @Configuration+@Beans: when we have to manually define beans we use it.
+
+
+      @Autowired tells Spring to automatically inject  dependency into a class
+       so we don’t have to create the object manually using new.
+
+
+Ques 4: Demonstrate how you will resolve ambiguity while autowiring bean
+
+        when we have multiple beans and we use autowiring our spring application
+        fails because it does not know which one to inject.
+
+        to solve this ambiguity we use annoattion
+        @primary  or @Qualifier("name")
+
+            @Component
+            @Primary
+            public class JioSavan implements MusicPlayer {
+                public void display(){
+                    System.out.println("JioSavan");
+                }
+            }
+
+
+
+        Note: when we use @primary and @Qualifier together, @Qualifier is preferred
+               over @Primary
+
+
+Ques 5: Perform Constructor Injection in a Spring Bean
+
+            @Autowired
+            public Music(MusicPlayer musicPlayer){
+                this.musicPlayer = musicPlayer;
+            }
