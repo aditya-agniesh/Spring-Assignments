@@ -1,5 +1,6 @@
 package com.restful.WebServiceAssignment.controller;
 
+import com.restful.WebServiceAssignment.exceptions.EmployeeNotFoundException;
 import com.restful.WebServiceAssignment.model.Employee;
 import com.restful.WebServiceAssignment.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -29,6 +30,9 @@ public class EmployeeController {
     @GetMapping("/show/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable int id){
         Employee employee=employeeService.findById(id);
+//        if(employee==null){
+//            throw new EmployeeNotFoundException("User not found with id : "+id);
+//        }
         return new ResponseEntity<>(employee,HttpStatus.OK);
     }
 

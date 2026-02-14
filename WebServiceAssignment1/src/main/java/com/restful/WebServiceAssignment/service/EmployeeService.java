@@ -1,5 +1,6 @@
 package com.restful.WebServiceAssignment.service;
 
+import com.restful.WebServiceAssignment.exceptions.EmployeeNotFoundException;
 import com.restful.WebServiceAssignment.model.Employee;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,9 @@ public class EmployeeService {
     }
 
     public Employee findById(int id){
-        return employeeList.stream().filter(emp->emp.getId()==id).findFirst().orElse(null);
+        return employeeList.stream().filter(emp->emp.getId()==id).findFirst().orElseThrow(
+                () -> new EmployeeNotFoundException("Employee not found with id: "+id)
+        );
     }
 
     public void save(Employee employee){
