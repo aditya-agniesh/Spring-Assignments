@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -62,12 +63,14 @@ class SpringDataJpa1ApplicationTests {
 
 	@Test
 	public void testFindUserBYName(){
-		employeeRepository.findByName("Dhawal").forEach(System.out::println);
+		employeeRepository.findByName("Dhawal")
+				.forEach(System.out::println);
 	}
 
 	@Test
 	public void testNameStartsWith(){
-		employeeRepository.findByNameStartsWith("A").forEach(System.out::println);
+		employeeRepository.findByNameStartsWith("A")
+				.forEach(System.out::println);
 	}
 
 	@Test
@@ -76,11 +79,17 @@ class SpringDataJpa1ApplicationTests {
 				.forEach(System.out::println);
 	}
 
-//	@Test
-//	public void testEmployeeUsingPaging(){
-//		Pageable pageable= PageRequest.of(0,2);
-//		employeeRepository.findByAge(pageable).forEach(System.out::println);
-//
-//	}
+	@Test
+	public void testEmployeeUsingPaging(){
+		Pageable pageable= PageRequest.of(0,2);
+		employeeRepository.findByAge(pageable,21).forEach(System.out::println);
+
+	}
+
+	@Test
+	public void testEmployeeFindByAgeSort(){
+		Sort sort=Sort.by(Sort.Direction.DESC,"name");
+		employeeRepository.findAllByAge(21,sort).forEach(System.out::println);
+	}
 }
 
