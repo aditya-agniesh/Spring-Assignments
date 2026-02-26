@@ -1,9 +1,7 @@
 package com.example.spring_data_jpa_2.controller;
 
-
-import com.example.spring_data_jpa_2.model.Employee;
 import com.example.spring_data_jpa_2.service.EmployeeService;
-import org.springframework.http.ResponseEntity;
+import com.example.spring_data_jpa_2.model.Employee;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,21 +16,30 @@ public class EmployeeController {
         this.service = service;
     }
 
-
-    @GetMapping("/above-average")
-    public ResponseEntity<List<Employee>> getEmployeesAboveAverage() {
-        return ResponseEntity.ok(service.getEmployeesAboveAverageSalary());
+    @GetMapping("/jpql/above-average")
+    public List<Object[]> jpqlAboveAverage() {
+        return service.getNamesAboveAverageSalaryJPQL();
     }
 
-    @PutMapping("/update-salary")
-    public ResponseEntity<String> updateSalary(@RequestParam Double salary) {
-        int count = service.updateSalary(salary);
-        return ResponseEntity.ok(count + " employees updated");
+    @PutMapping("/jpql/update")
+    public String updateJPQL(@RequestParam Double salary) {
+        return service.updateSalaryBelowAverage(salary) + " updated";
     }
 
-    @DeleteMapping("/delete-min-salary")
-    public ResponseEntity<String> deleteMinSalaryEmployees() {
-        int count = service.deleteMinSalaryEmployees();
-        return ResponseEntity.ok(count + " employees deleted");
+    @DeleteMapping("/jpql/min-salary")
+    public String deleteJPQL() {
+        return service.deleteEmployeesWithMinSalary() + " deleted";
     }
+
+
+    @GetMapping("/native/lastname")
+    public List<Object[]> nativeLastName(@RequestParam String lastName) {
+        return service.getEmployeesByLastNameNative(lastName);
+    }
+
+    @DeleteMapping("/native/age")
+    public String deleteNative(@RequestParam Integer age) {
+        return service.deleteEmployeesByAgeNative(age) + " deleted";
+    }
+
 }

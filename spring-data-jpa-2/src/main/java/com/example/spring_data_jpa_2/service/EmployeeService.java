@@ -1,8 +1,5 @@
 package com.example.spring_data_jpa_2.service;
 
-
-
-import com.example.spring_data_jpa_2.model.Employee;
 import com.example.spring_data_jpa_2.repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -18,17 +15,32 @@ public class EmployeeService {
         this.repository = repository;
     }
 
-    public List<Employee> getEmployeesAboveAverageSalary() {
-        return repository.findEmployeesWithSalaryGreaterThanAverage();
+    //JPQL
+
+    public List<Object[]> getNamesAboveAverageSalaryJPQL() {
+        return repository.findNamesAboveAverageSalaryJPQL();
     }
 
-    @Transactional
-    public int updateSalary(Double newSalary) {
-        return repository.updateSalaryLessThanAverage(newSalary);
+    public int updateSalaryBelowAverage(Double newSalary) {
+        Double avg = repository.findAverageSalary();
+        return repository.updateSalaryBelowAverage(newSalary, avg);
     }
 
+
     @Transactional
-    public int deleteMinSalaryEmployees() {
-        return repository.deleteEmployeesWithMinimumSalary();
+    public int deleteEmployeesWithMinSalary() {
+        Double minSalary = repository.findMinimumSalary();
+        return repository.deleteBySalary(minSalary);
     }
+
+    //NATIVE
+
+    public List<Object[]> getEmployeesByLastNameNative(String lastName) {
+        return repository.findEmployeesByLastNameEndingWithNative(lastName);
+    }
+
+    public int deleteEmployeesByAgeNative(Integer age) {
+        return repository.deleteEmployeesByAgeNative(age);
+    }
+
 }
